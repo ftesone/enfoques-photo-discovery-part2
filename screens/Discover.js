@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Button, Image, Dimensions, ActivityIndicator } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
-export function Discover() {
+export function Discover({ navigation }) {
   const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -32,7 +32,7 @@ export function Discover() {
       </View>
       <View style={styles.footer}>
         <Button title="Descubrir nueva" onPress={loadRandomImage} />
-        <Button title="Mis favoritas" onPress={() => console.log('TODO: ir a Mis Favoritas')} />
+        <Button title="Mis favoritas" onPress={() => navigation.navigate('Favs')} />
       </View>
       {loading && (
         <View style={styles.loading}>

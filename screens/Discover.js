@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Button, Image, Dimensions, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Button, Image, Dimensions, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { FontAwesome } from '@expo/vector-icons';
+import { useSelector, useDispatch } from 'react-redux';
+import { removeFav } from '../features/favs/favsSlice';
 
 export function Discover({ navigation }) {
   const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(false);
+  const favs = useSelector(state => state.favs);
+  const dispatch = useDispatch();
 
   useEffect(() => { loadRandomImage(); }, []);
 
@@ -29,6 +34,13 @@ export function Discover({ navigation }) {
     <View style={styles.main}>
       <View style={styles.imageHolder}>
         {imageUrl && <Image style={styles.image} source={{uri: imageUrl}} />}
+        <TouchableOpacity onPress={_ => { dispatch(removeFav(imageUrl)) }} style={styles.fav}>
+            <FontAwesome
+                name={favs.includes(imageUrl) ? 'heart' : 'heart-o'}
+                size={30}
+                color='#F00'
+            />
+        </TouchableOpacity>
       </View>
       <View style={styles.footer}>
         <Button title="Descubrir nueva" onPress={loadRandomImage} />
@@ -51,6 +63,12 @@ const styles = StyleSheet.create({
   },
   imageHolder: {
     flex: 1,
+  },
+  fav: {
+    position: 'absolute',
+    top: 50,
+    right: 20,
+    zIndex: 100,
   },
   footer: {
     position: 'absolute',

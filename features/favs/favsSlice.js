@@ -6,13 +6,13 @@ export const favsSlice = createSlice({
         favs: [],
     },
     reducers: {
-        addFav: (favs, action) => {
-            if (!favs.includes(action.payload)) {
-                favs.push(action.payload);
+        addFav: (state, action) => {
+            if (!state.favs.includes(action.payload)) {
+                state.favs.push(action.payload);
             }
         },
-        removeFav: (favs, action) => {
-            favs = favs.filter(fav => fav != action.payload);
+        removeFav: (state, action) => {
+            state.favs = state.favs.filter(fav => fav != action.payload);
         },
     },
 });

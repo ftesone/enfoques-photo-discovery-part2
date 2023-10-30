@@ -3,12 +3,12 @@ import { StyleSheet, View, Button, Image, Dimensions, ActivityIndicator, Touchab
 import { StatusBar } from 'expo-status-bar';
 import { FontAwesome } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
-import { removeFav } from '../features/favs/favsSlice';
+import { addFav, removeFav } from '../features/favs/favsSlice';
 
 export function Discover({ navigation }) {
   const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(false);
-  const favs = useSelector(state => state.favs);
+  const favs = useSelector(state => state.favs.favs);
   const dispatch = useDispatch();
 
   useEffect(() => { loadRandomImage(); }, []);
@@ -34,7 +34,7 @@ export function Discover({ navigation }) {
     <View style={styles.main}>
       <View style={styles.imageHolder}>
         {imageUrl && <Image style={styles.image} source={{uri: imageUrl}} />}
-        <TouchableOpacity onPress={_ => { dispatch(removeFav(imageUrl)) }} style={styles.fav}>
+        <TouchableOpacity onPress={_ => { favs.includes(imageUrl) ? dispatch(removeFav(imageUrl)) : dispatch(addFav(imageUrl)) }} style={styles.fav}>
             <FontAwesome
                 name={favs.includes(imageUrl) ? 'heart' : 'heart-o'}
                 size={30}
